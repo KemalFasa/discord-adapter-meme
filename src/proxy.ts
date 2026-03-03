@@ -1,0 +1,112 @@
+import Koa from "koa";
+import { Readable } from "node:stream";
+
+const FLUXER_API_BASE = "https://web.fluxer.app/api/v1";
+
+const SKIP_HEADERS = [
+  "content-encoding",
+  "transfer-encoding",
+  "connection",
+  "keep-alive",
+  "origin",
+];
+
+function buildFetchOptions(
+  ctx: Koa.Context,
+  override: Partial<RequestInit> = {},
+): RequestInit & { duplex?: string } {
+  const overrideHeaders = "headers" in override ? override.headers : {};
+
+  const options: RequestInit & { duplex?: string } = {
+    method: ctx.method,
+    ...override,
+    headers: {
+      "Content-Type": ctx.get("Content-Type"),
+      Authorization: ctx.get("Authorization"),
+      "User-Agent": ctx.get("User-Agent"),
+      Origin: "https://web.fluxer.app",
+      ...overrideHeaders,
+    },
+  };
+
+  if (!["GET", "HEAD"].includes(options.method ?? "")) {
+    options.body = ctx.req as any;
+    options.duplex = "half";
+  }
+
+  return options;
+}
+
+/**
+ * Proxy a request to Fluxer, streaming the response as-is.
+ */
+export async function proxyToFluxer(ctx: Koa.Context, subPath: string) {
+  const targetUrl = `${FLUXER_API_BASE}/${subPath}${ctx.search}`;
+
+  console.log(`[Proxy] ${ctx.method} ${ctx.path} -> ${targetUrl}`);
+
+  try {
+    const res = await fetch(targetUrl, buildFetchOptions(ctx));
+
+    ctx.status = res.status;
+    setHeaders(ctx, res.headers);
+
+    if (res.body) {
+      const readable = Readable.fromWeb(res.body as any);
+      readable.on("error", (err: any) => {
+        if (err.code !== "ERR_STREAM_PREMATURE_CLOSE") {
+          console.error("Stream error:", err);
+        }
+      });
+      ctx.body = readable;
+    } else {
+      ctx.body = null;
+    }
+  } catch (err) {
+    console.error(`API Proxy error for ${targetUrl}:`, err);
+    ctx.status = 502;
+    ctx.body = { error: "Bad Gateway", message: "Failed to reach Fluxer API" };
+  }
+}
+
+function stripAPIVersion(url: string) {
+  return url.replace(/^\/api\/v\d+/, "");
+}
+
+/**
+ * Proxy a request to Fluxer, returning the parsed JSON body for interception/rewriting.
+ * The caller is responsible for setting ctx.status, ctx.set(), and ctx.body.
+ */
+export async function proxyToFluxerJSON<T = any>(
+  ctx: Koa.Context,
+  overrideUrl: string | undefined = undefined,
+  overrideFetchOptions: Partial<RequestInit> = {},
+): Promise<{ status: number; headers: Headers; body: T }> {
+  const targetUrl = `${FLUXER_API_BASE}/${stripAPIVersion(overrideUrl ?? ctx.url)}`;
+
+  console.log(`[Proxy] ${ctx.method} ${ctx.path} -> ${targetUrl} (JSON)`);
+
+  const res = await fetch(
+    targetUrl,
+    buildFetchOptions(ctx, overrideFetchOptions),
+  );
+
+  let body = undefined;
+  if (res.headers.get("Content-Type")?.includes("application/json")) {
+    body = await res.json();
+  }
+
+  return {
+    status: res.status,
+    headers: res.headers,
+    body: body as T,
+  };
+}
+
+export function setHeaders(ctx: Koa.Context, headers: Headers) {
+  for (const [key, value] of headers.entries()) {
+    if (!SKIP_HEADERS.includes(key.toLowerCase())) {
+      ctx.set(key, value);
+    }
+  }
+}

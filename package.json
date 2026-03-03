@@ -1,0 +1,33 @@
+{
+  "name": "discord-adapter-meme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-strip-types src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.30.3+sha512.c961d1e0a2d8e354ecaa5166b822516668b7f44cb5bd95122d590dd81922f606f5473b6d23ec4a5be05e7fcd18e8488d47d978bbe981872f1145d06e9a740017",
+  "dependencies": {
+    "@koa/router": "^15.3.1",
+    "bufferutil": "^4.1.0",
+    "cheerio": "^1.2.0",
+    "discord-protos": "1.2.102",
+    "erlpack": "^0.1.4",
+    "eta": "^4.5.1",
+    "koa": "^3.1.2",
+    "selfsigned": "^5.5.0",
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^3.0.1",
+    "@types/node": "^25.3.3",
+    "@types/ws": "^8.18.1",
+    "prettier": "^3.8.1"
+  }
+}
