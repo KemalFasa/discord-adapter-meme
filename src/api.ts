@@ -32,9 +32,16 @@ apiRouter.get("/guilds/:guildId/integrations", (ctx) => {
   ctx.body = [];
 });
 
-function makeSimpleBodyTransformer(transformer: (body: any) => any) {
+function makeSimpleBodyTransformer(
+  transformer: (body: any) => any,
+  overrideFetchOptions?: Partial<RequestInit>,
+) {
   return async (ctx: Koa.Context) => {
-    const { status, headers, body } = await proxyToFluxerJSON(ctx);
+    const { status, headers, body } = await proxyToFluxerJSON(
+      ctx,
+      undefined,
+      overrideFetchOptions,
+    );
     ctx.status = status;
     setHeaders(ctx, headers);
 
@@ -142,6 +149,13 @@ apiRouter.get("/users/@me/affinities/channels", async (ctx) => {
     channel_affinities: [],
   };
 });
+
+apiRouter.put(
+  "/users/@me/relationships/:userId",
+  makeSimpleBodyTransformer((body) => body, {
+    method: "POST",
+  }),
+);
 
 apiRouter.get("/discoverable-guilds", async (ctx) => {
   const { status, headers, body } = await proxyToFluxerJSON(
